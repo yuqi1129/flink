@@ -70,7 +70,30 @@ public class CheckpointConfig implements java.io.Serializable {
 	/** Cleanup behaviour for persistent checkpoints. */
 	private ExternalizedCheckpointCleanup externalizedCheckpointCleanup;
 
+	/** Check point meta dir for job level. */
+	private String checkPointMetaDir;
 	// ------------------------------------------------------------------------
+
+	/**
+	 * Get checkpoint meta dir this job.
+	 *
+	 * @return checkpoint meta dir for this job
+	 */
+	public String getCheckPointMetaDir() {
+		return checkPointMetaDir;
+	}
+
+	/**
+	 * Set checkpoint meta dir for this job.
+	 * This will override system 'state.checkpoints.dir' setting if
+	 * we enable checkpoint and enable external checkpoint or this method
+	 * will not take effect
+	 *
+	 * @param checkPointMetaDir checkpoint meta dir to be set
+	 */
+	public void setCheckPointMetaDir(String checkPointMetaDir) {
+		this.checkPointMetaDir = checkPointMetaDir;
+	}
 
 	/**
 	 * Checks whether checkpointing is enabled.

@@ -36,6 +36,9 @@ public class ExternalizedCheckpointSettings implements java.io.Serializable {
 	/** Flag indicating whether externalized checkpoints should delete on cancellation. */
 	private final boolean deleteOnCancellation;
 
+	/** External checkpoint dir of job level.*/
+	private String  checkPointMetaDir = null;
+
 	private ExternalizedCheckpointSettings(boolean externalizeCheckpoints, boolean deleteOnCancellation) {
 		this.externalizeCheckpoints = externalizeCheckpoints;
 		this.deleteOnCancellation = deleteOnCancellation;
@@ -67,4 +70,11 @@ public class ExternalizedCheckpointSettings implements java.io.Serializable {
 		return NONE;
 	}
 
+	public String getCheckPointMetaDir() {
+		return checkPointMetaDir;
+	}
+
+	public void setCheckPointMetaDir(String checkPointMetaDir) {
+		this.checkPointMetaDir = checkPointMetaDir;
+	}
 }

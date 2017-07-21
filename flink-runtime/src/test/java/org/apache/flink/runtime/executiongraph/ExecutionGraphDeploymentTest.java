@@ -72,6 +72,7 @@ import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
 public class ExecutionGraphDeploymentTest {
+	private static final String CHECKPOINTS_META_DIR = "file:///checkpoint/dir";
 
 	@Test
 	public void testBuildDeploymentDescriptor() {
@@ -491,6 +492,16 @@ public class ExecutionGraphDeploymentTest {
 			eg.getCheckpointCoordinator().getCheckpointStore().getMaxNumberOfRetainedCheckpoints());
 	}
 
+	@Test
+	public void testCheckpointsMetaDir() throws Exception {
+		final Configuration jobManagerConfig = new Configuration();
+		final ExecutionGraph eg = createExecutionGraph(jobManagerConfig);
+		assertEquals(CHECKPOINTS_META_DIR,
+				eg.getJobCheckpointingSettings().getExternalizedCheckpointSettings()
+						.getCheckPointMetaDir());
+
+	}
+
 	@SuppressWarnings("serial")
 	public static class FailingFinalizeJobVertex extends JobVertex {
 
@@ -509,6 +520,10 @@ public class ExecutionGraphDeploymentTest {
 
 		final JobID jobId = new JobID();
 		final JobGraph jobGraph = new JobGraph(jobId, "test");
+		final ExternalizedCheckpointSettings externalizedCheckpointSettings =
+				ExternalizedCheckpointSettings.externalizeCheckpoints(false);
+
+		externalizedCheckpointSettings.setCheckPointMetaDir(CHECKPOINTS_META_DIR);
 		jobGraph.setSnapshotSettings(new JobCheckpointingSettings(
 			Collections.<JobVertexID>emptyList(),
 			Collections.<JobVertexID>emptyList(),
@@ -517,7 +532,7 @@ public class ExecutionGraphDeploymentTest {
 			10 * 60 * 1000,
 			0,
 			1,
-			ExternalizedCheckpointSettings.none(),
+			externalizedCheckpointSettings,
 			null,
 			false));
 

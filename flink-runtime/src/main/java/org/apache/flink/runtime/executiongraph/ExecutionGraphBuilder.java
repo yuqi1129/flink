@@ -219,6 +219,10 @@ public class ExecutionGraphBuilder {
 			// The default directory for externalized checkpoints
 			String externalizedCheckpointsDir = jobManagerConfig.getString(CoreOptions.CHECKPOINTS_DIRECTORY);
 
+			String userDefineCheckPointdir = snapshotSettings.getExternalizedCheckpointSettings().getCheckPointMetaDir();
+			if (userDefineCheckPointdir != null) {
+				externalizedCheckpointsDir = userDefineCheckPointdir;
+			}
 			// load the state backend for checkpoint metadata.
 			// if specified in the application, use from there, otherwise load from configuration
 			final StateBackend metadataBackend;
